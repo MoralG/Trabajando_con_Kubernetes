@@ -132,9 +132,9 @@ kubeadm join 10.0.0.12:6443 --token ijp180.u4s50rzes1ymbipn \
     --discovery-token-ca-cert-hash sha256:6c59402543d65e4bf68865ded7460e8f4af334bc4f397a5736a02b4a7f705834 
 ~~~
 
-Nos indica tres cosas:
+Lo que nos devuelve nos indica 3 pasos a realizar:
 
-1. Las instrucciones que tenemos que ejecutar en la máquina **master** para usar el cliente kubectl y manejar el cluster.
+1. Las instrucciones que tenemos que ejecutar en la máquina **master** para usar el cliente kubectl y manejar el cluster. Este paso lo realizaremos a continuación:
 
 ~~~
 mkdir -p $HOME/.kube
@@ -142,10 +142,9 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ~~~
 
-2. La instalación de un pod para la gestión de la red, que se explicara en el siguiente [punto](https://github.com/MoralG/Trabajando_con_Kubernetes/blob/master/Trabajando_con_Kubernetes.md#configuraci%C3%B3n-del-pod-para-gestionar-la-red-master).
+2. La instalación de un pod para la gestión de la red, que se explicará en el siguiente [punto](https://github.com/MoralG/Trabajando_con_Kubernetes/blob/master/Trabajando_con_Kubernetes.md#configuraci%C3%B3n-del-pod-para-gestionar-la-red-master).
 
 3. Y la instrucción que tenemos que ejecutar en los nodos para añadirlos al cluster. Utilizaremos un token para ello, que se explicará también en los siguientes [puntos](https://github.com/MoralG/Trabajando_con_Kubernetes/blob/master/Trabajando_con_Kubernetes.md#uniendo-los-nodos-al-cluster-nodo1-nodo2).
-
 
 
 ### Configuración del pod para gestionar la red (Master)
@@ -178,7 +177,7 @@ kube-proxy-l2z42                          1/1     Running   0          7m47s
 kube-scheduler-master                     1/1     Running   1          8m13s
 ~~~
 
-> Con la opción `-n kube-system` le indicamos el escacio de nombre.
+> Con la opción `-n kube-system` le indicamos el espacio de nombre.
 
 ### Uniendo los nodos al cluster (Nodo1, Nodo2)
 
