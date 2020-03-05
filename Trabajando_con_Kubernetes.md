@@ -1,3 +1,21 @@
+# Trabajando con Kubernetes con la herramienta Kubeadm
+
+**Kubernetes** es un orquestador de contenedores. Un orquestador es el encargado de gestionar el ciclo de vida de los contenedores de una aplicación.
+
+Kubernetes se ha convertido en el estandar y sus principales servicios que ofrece son:
+
+* Manejo del clúster (permitir añadir o quitar nodos al clúster)
+* Gestión del ciclo de vida de los contenedores (p. ej. reiniciar contenedores que fallen)
+* Service Discovery (que un contenedor pueda encontrar las rutas IP/DNS de otro contenedor)
+* Servicios de red y load-balancing (repartir la carga entre las distintas máquinas del clúster)
+* Servicios de monitorización
+* Servicios de chequeo de estado de salud (del clúster y de cada uno de los contenedores)
+
+Tenemos que comprender antes de empezar a realizar la tarea, los nodos que necesitamos:
+
+* **Nodo Master**: Los nodos master son los encargados de coordinar el clúster. Por lo general los nodos master no ejecutan contenedores. Aunque está permitido que lo hagan, no es un escenario recomendado en producción. Todo clúster de Kubernetes debe tener al menos un nodo master.
+
+* **Nodos Minion**: Un nodo minion es aquel que ejecuta los contenedores desplegados en el clúster.
 
 ### Escenario
 
@@ -7,12 +25,15 @@
 
 Tenemos que abrir los puertos necesarios para la configuración de Kubernetes. En nuestro caso, al trabajar en el cloud de OpenStack tenemos que abrir los siguientes puertos:
 
-* 80: Para acceder a los servicios con el controlador Ingress.
-* 443: Para acceder a los servicios con el controlador Ingress y HTTPS.
-* 6443: Para acceder a la API de Kubernetes.
-* 30000-40000: Para acceder a las aplicaciones con el servicio NodePort.
+* **80**: Para acceder a los servicios con el controlador Ingress.
+* **443**: Para acceder a los servicios con el controlador Ingress y HTTPS.
+* **6443**: Para acceder a la API de Kubernetes.
+* **30000-40000**: Para acceder a las aplicaciones con el servicio NodePort.
+  
+-----------------------------------------------------------------------------------
+> **NOTA**: Ya tenemos el escenario listo para realizar la tarea, mostraremos donde hay que realizar los puntos siguiente indicandolo entre paréntesis a las máquinas que se le aplican.
 
-Ya tenemos el escenario listo para realizar la tarea, mostraremos donde hay que realizar los puntos siguiente indicandolo entre paréntesis a las máquinas que se le aplican.
+------------------------------------------------------------------------------------
 
 ### Instalación de Docker (Master, Nodo1, Nodo2)
 
@@ -22,13 +43,15 @@ Instalamos los paquetes que nos permiten usar repositorios apt con https:
 
 ~~~
 sudo apt update
+~~~
 
+~~~
 sudo apt install \
-     apt-transport-https \
-     ca-certificates \
-     curl \
-     gnupg2 \
-     software-properties-common
+apt-transport-https \
+ca-certificates \
+curl \
+gnupg2 \
+software-properties-common
 ~~~
 
 Añadimos las claves GPG oficiales de Docker:
