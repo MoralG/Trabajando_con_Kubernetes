@@ -278,51 +278,6 @@ weave-net-vlsnt                  2/2     Running   0          61s
 
 Ya tenemos Kubernetes instalado y funcional. Ahora vamos a realizar el despliegue de una aplicación con Kubernetes.
 
-# Despliegue
-
-### Creación de namespace (Master)
-
-Vamos a crear un **namespace** para la aplicación. Los namespaces nos permiten aislar recursos para que los usuarios hagan uso de uno específico, sin interferir en los de los demás usuarios.
-
-Podemos ver los namespaces que tenemos creado:
-~~~
-kubectl get namespaces
-  NAME              STATUS   AGE
-  default           Active   24h
-  kube-node-lease   Active   24h
-  kube-public       Active   24h
-  kube-system       Active   24h
-~~~
-
-> default: Espacio de nombres por defecto en el que podemos trabajar.
->
-> kube-system: Espacio de nombres creado y gestionado por Kubernetes.
->
-> kube-public: Espacio de nombres accesible por todos los usuarios, reservado para uso interno del cluster.
-
-Podemos utilizar el namespace por defecto, pero vamos a crear uno para aislarlo de los demás proyectos. Para crear un namespace tenemos que ejecutar el siguiente comando:
-
-~~~
-kubectl create ns wordpress-ns
-  namespace/wordpress-ns created
-~~~
-
-> **NOTA**: Podemos borrar un namespace con `kubectl delete ns <nombre_namespace>`
-
-Podemos ver las caracteristicas del namespace **wordpress-ns** con el siguiente comando:
-
-~~~
-kubectl describe ns wordpress-ns
-  Name:         wordpress-ns
-  Labels:       <none>
-  Annotations:  <none>
-  Status:       Active
-
-  No resource quota.
-
-  No LimitRange resource.
-~~~
-
 # Acceso desde un cliente externo	
 
 ### Instalación de Kubectl (Equipo 1)	
@@ -388,7 +343,50 @@ Kubernetes master is running at https://172.22.200.125:6443
 KubeDNS is running at https://172.22.200.125:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy	
 ~~~	
 
-# Despliegue	
+# Despliegue
+
+### Creación de namespace (Master)
+
+Vamos a crear un **namespace** para la aplicación. Los namespaces nos permiten aislar recursos para que los usuarios hagan uso de uno específico, sin interferir en los de los demás usuarios.
+
+Podemos ver los namespaces que tenemos creado:
+~~~
+kubectl get namespaces
+  NAME              STATUS   AGE
+  default           Active   24h
+  kube-node-lease   Active   24h
+  kube-public       Active   24h
+  kube-system       Active   24h
+~~~
+
+> default: Espacio de nombres por defecto en el que podemos trabajar.
+>
+> kube-system: Espacio de nombres creado y gestionado por Kubernetes.
+>
+> kube-public: Espacio de nombres accesible por todos los usuarios, reservado para uso interno del cluster.
+
+Podemos utilizar el namespace por defecto, pero vamos a crear uno para aislarlo de los demás proyectos. Para crear un namespace tenemos que ejecutar el siguiente comando:
+
+~~~
+kubectl create ns wordpress-ns
+  namespace/wordpress-ns created
+~~~
+
+> **NOTA**: Podemos borrar un namespace con `kubectl delete ns <nombre_namespace>`
+
+Podemos ver las caracteristicas del namespace **wordpress-ns** con el siguiente comando:
+
+~~~
+kubectl describe ns wordpress-ns
+  Name:         wordpress-ns
+  Labels:       <none>
+  Annotations:  <none>
+  Status:       Active
+
+  No resource quota.
+
+  No LimitRange resource.
+~~~
 
 ### Creación de la secrets (Master)
 
