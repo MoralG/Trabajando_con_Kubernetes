@@ -323,6 +323,73 @@ kubectl describe ns wordpress-ns
   No LimitRange resource.
 ~~~
 
+# Acceso desde un cliente externo	
+
+### Instalación de Kubectl (Equipo 1)	
+
+Es siemple preferible y mas profesional interactuar con el cluster del **master** desde un equipo externo, donde instalaremos `kubectl`.	
+
+Instalamos `kubectl` en el Equipo externo ejecutando lo siguiente:	
+~~~	
+sudo su	
+apt update && apt-get install -y apt-transport-https gnupg2 curl	
+~~~	
+~~~	
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -	
+~~~	
+~~~	
+cat <<EOF >/etc/apt/sources.list.d/kubernetes.list	
+deb http://apt.kubernetes.io/ kubernetes-xenial main	
+EOF	
+~~~	
+~~~	
+apt update	
+apt install -y kubectl	
+~~~	
+
+### Habilitar permisos (Master)	
+
+Desde el master tenemos que habilitar los permisos de lectura deel fichero `/etc/kubernetes/admin.conf`.	
+
+~~~	
+sudo chmod 644 /etc/kubernetes/admin.conf	
+~~~	
+
+### Configuración de equipo remoto (Equipo 1)	
+
+Ahora vamos a configurar el acceso al cluster, para realizar esto tenemos que descargarnos el fichero admin.conf del master.	
+
+~~~	
+export IP_MASTER=172.22.200.125	
+sftp debian@${IP_MASTER}	
+sftp> get /etc/kubernetes/admin.conf	
+sftp> exit	
+~~~	
+
+Creamos el directorio `.kube` y añadimos el fichero.	
+
+###### Sin superusuario	
+~~~	
+mkdir ~/.kube	
+mv admin.conf ~/.kube/mycluster.conf	
+sed -i -e "s#server: https://.*:6443#server: https://${IP_MASTER}:6443#g" ~/.kube/mycluster.conf	
+export KUBECONFIG=~/.kube/mycluster.conf	
+~~~	
+
+> **NOTA**: Para se realice la conexión tenemos que abrir el puerto **6443**.	
+Comprobamos la conexión con el siguiente comando:	
+~~~	
+kubectl cluster-info	
+~~~	
+
+Y nos tiene que salir el siguiente mensaje:	
+~~~	
+Kubernetes master is running at https://172.22.200.125:6443	
+KubeDNS is running at https://172.22.200.125:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy	
+~~~	
+
+# Despliegue	
+
 ### Creación de la secrets (Master)
 
 Lo siguiente que vamos a realizar es agregar un secreto, el cual es un objeto que almacena un dato confidencial como una contraseña. Vamos a utilizar este objeto para guardar las variables de mariadb.
